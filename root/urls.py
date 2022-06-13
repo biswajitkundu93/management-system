@@ -17,12 +17,16 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from . import templating
+from django.views.generic import RedirectView
+from .templating import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('app/',  include('app.urls')),
-    path('', templating.home)
+
+    # home routing
+    path('', RedirectView.as_view(pattern_name='home', permanent=False)),
+    path('home/', index.home, name="home"),
 ]
 
 urlpatterns = urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 
